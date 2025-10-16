@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowflake Data Cloud Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #29B5E8 0%, #1E88C7 100%);
+            padding: 20px;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #29B5E8 0%, #1E88C7 100%);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header .tagline {
+            font-size: 1.2em;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+        
+        .logo {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 0;
+        }
+        
+        .section {
+            padding: 25px;
+            border-right: 1px solid #e0e0e0;
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+            min-height: 300px;
+        }
+        
+        .section:nth-child(4n) {
+            border-right: none;
+        }
+        
+        .section-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #29B5E8;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #29B5E8;
+        }
+        
+        .icon {
+            font-size: 1.5em;
+        }
+        
+        .intro-section {
+            grid-column: 1 / 2;
+            background: linear-gradient(135deg, #f8fbfd 0%, #e8f4f8 100%);
+            padding: 30px;
+            border: 2px solid #29B5E8;
+        }
+        
+        .intro-section h2 {
+            color: #1E88C7;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+        
+        .intro-section p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: #2c3e50;
+        }
+        
+        .intro-section .highlight {
+            background: #29B5E8;
+            color: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 10px;
+        }
+        
+        .feature-list li {
+            padding: 8px 0;
+            position: relative;
+            padding-left: 20px;
+            line-height: 1.5;
+            font-size: 0.95em;
+        }
+        
+        .feature-list li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #29B5E8;
+            font-weight: bold;
+        }
+        
+        .feature-list strong {
+            color: #1E88C7;
+        }
+        
+        .subsection {
+            margin-top: 15px;
+        }
+        
+        .subsection-title {
+            font-weight: bold;
+            color: #1E88C7;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+        
+        .cloud-providers {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .cloud-badge {
+            background: linear-gradient(135deg, #29B5E8 0%, #1E88C7 100%);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .footer {
+            background: #2c3e50;
+            color: white;
+            padding: 20px 40px;
+            text-align: center;
+            font-size: 0.9em;
+        }
+        
+        .description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+        
+        @media print {
+            body {
+                padding: 0;
+                background: white;
+                font-size: 10px;
+            }
+            .container {
+                box-shadow: none;
+                max-width: 100%;
+            }
+            .header {
+                page-break-after: avoid;
+                padding: 20px 30px;
+            }
+            .header h1 {
+                font-size: 1.8em;
+                margin-bottom: 8px;
+            }
+            .header .tagline {
+                font-size: 1em;
+            }
+            .logo {
+                font-size: 1.8em;
+            }
+            .content {
+                display: block;
+            }
+            .section {
+                page-break-inside: avoid;
+                break-inside: avoid;
+                margin-bottom: 12px;
+                border: 1px solid #e0e0e0;
+                min-height: auto;
+                width: 48%;
+                display: inline-block;
+                vertical-align: top;
+                margin-right: 1.5%;
+                padding: 15px;
+            }
+            .section:nth-child(2n) {
+                margin-right: 0;
+            }
+            .section-title {
+                font-size: 1em;
+                margin-bottom: 8px;
+                padding-bottom: 6px;
+            }
+            .icon {
+                font-size: 1.1em;
+            }
+            .description {
+                font-size: 0.85em;
+                margin-bottom: 8px;
+                line-height: 1.4;
+            }
+            .feature-list li {
+                padding: 4px 0;
+                padding-left: 15px;
+                line-height: 1.3;
+                font-size: 0.8em;
+            }
+            .feature-list strong {
+                font-size: 0.95em;
+            }
+            .subsection-title {
+                font-size: 0.9em;
+                margin-bottom: 5px;
+            }
+            .intro-section {
+                width: 100%;
+                page-break-after: avoid;
+                page-break-inside: avoid;
+                display: block;
+                margin-bottom: 12px;
+                padding: 20px;
+            }
+            .intro-section h2 {
+                font-size: 1.2em;
+                margin-bottom: 10px;
+            }
+            .intro-section p {
+                font-size: 0.85em;
+                line-height: 1.4;
+                margin-bottom: 10px;
+            }
+            .intro-section .highlight {
+                padding: 10px;
+                margin-top: 10px;
+                font-size: 0.85em;
+            }
+            .section[style*="grid-column: span 2"] {
+                width: 100%;
+                display: block;
+                page-break-inside: avoid;
+                break-inside: avoid;
+                margin-bottom: 12px;
+                margin-right: 0;
+                padding: 15px;
+            }
+            .cloud-badge {
+                padding: 6px 12px;
+                font-size: 0.75em;
+            }
+            .footer {
+                page-break-before: avoid;
+                padding: 12px 30px;
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Snowflake Data Cloud Platform</h1>
+            <p class="tagline">The AI Data Cloud - Mobilizing the world's data with a single, integrated platform</p>
+            <div class="logo">❄️ SNOWFLAKE</div>
+        </div>
+        
+        <div class="content">
+            <!-- Intro Section -->
+            <div class="intro-section">
+                <h2>The Snowflake Data Cloud</h2>
+                <p><strong>Snowflake is a single, integrated platform that enables every organization to mobilize their data with a near-unlimited scale, concurrency, and performance.</strong></p>
+                <p>Built from the ground up for the cloud, Snowflake delivers a data platform that powers the AI Data Cloud with:</p>
+                <ul class="feature-list">
+                    <li><strong>Single Platform:</strong> Unified data warehousing, data lakes, data engineering, data science, and data applications</li>
+                    <li><strong>Multi-Cloud:</strong> Run anywhere - AWS, Azure, Google Cloud</li>
+                    <li><strong>Near-Zero Maintenance:</strong> No infrastructure to manage, automatic scaling, and optimization</li>
+                    <li><strong>Instant Elasticity:</strong> Scale compute and storage independently in seconds</li>
+                    <li><strong>Secure Data Sharing:</strong> Share live data instantly without copying or moving</li>
+                </ul>
+                <div class="highlight">
+                    Snowflake separates compute from storage, enabling unlimited concurrency and linear scalability at any scale.
+                </div>
+            </div>
+            
+            <!-- Data Warehousing -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🏢</span>
+                    <span>Data Warehousing</span>
+                </div>
+                <p class="description">Industry-leading cloud data warehouse with unlimited scale, performance, and concurrency for all your analytics workloads.</p>
+                <ul class="feature-list">
+                    <li><strong>Virtual Warehouses:</strong> Independent compute clusters with automatic scaling and suspend/resume capabilities</li>
+                    <li><strong>Multi-Cluster Warehouses:</strong> Automatic scaling to handle unlimited concurrent users without performance degradation</li>
+                    <li><strong>Zero-Copy Cloning:</strong> Instant cloning of databases, schemas, and tables without duplicating storage</li>
+                    <li><strong>Time Travel:</strong> Query, restore, and clone data from any point in the past 90 days</li>
+                    <li><strong>Result Caching:</strong> Automatic caching of query results for instant response times</li>
+                    <li><strong>Search Optimization:</strong> Point lookup and selective filter queries up to 100x faster</li>
+                </ul>
+            </div>
+            
+            <!-- Data Engineering -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">⚙️</span>
+                    <span>Data Engineering</span>
+                </div>
+                <p class="description">Complete data pipeline platform for ingestion, transformation, and orchestration of complex data workflows.</p>
+                <ul class="feature-list">
+                    <li><strong>Snowpipe:</strong> Continuous, automated data ingestion as files arrive in cloud storage</li>
+                    <li><strong>Snowpipe Streaming:</strong> Low-latency streaming ingestion for real-time data (sub-second)</li>
+                    <li><strong>Tasks & Streams:</strong> Native CDC and workflow orchestration without external tools</li>
+                    <li><strong>Dynamic Tables:</strong> Declarative data pipelines that automatically refresh based on dependencies</li>
+                    <li><strong>External Tables:</strong> Query data in external storage without loading into Snowflake</li>
+                    <li><strong>Data Loading:</strong> Bulk loading from cloud storage, on-premises, and third-party sources</li>
+                </ul>
+            </div>
+            
+            <!-- OpenFlow & PostgreSQL -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🔀</span>
+                    <span>OpenFlow & PostgreSQL</span>
+                </div>
+                <p class="description">Visual data pipeline builder and PostgreSQL compatibility for seamless migrations.</p>
+                <ul class="feature-list">
+                    <li><strong>OpenFlow:</strong> Low-code/no-code visual interface for building data pipelines with drag-and-drop</li>
+                    <li><strong>Pipeline Orchestration:</strong> Visual DAG builder for complex workflows without code</li>
+                    <li><strong>Snowflake PostgreSQL:</strong> PostgreSQL-compatible interface for easy migration from Postgres databases</li>
+                    <li><strong>Wire Protocol Support:</strong> Connect PostgreSQL clients and tools directly to Snowflake</li>
+                    <li><strong>SQL Dialect Compatibility:</strong> Support for PostgreSQL syntax and functions</li>
+                    <li><strong>Migration Tools:</strong> Automated migration from PostgreSQL with minimal code changes</li>
+                </ul>
+            </div>
+            
+            <!-- Polaris Catalog & Horizon -->
+            <div class="section" style="grid-column: span 2; background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #29B5E8;">
+                <div class="section-title">
+                    <span class="icon">🌐</span>
+                    <span>Polaris Catalog & Horizon - Open Data Ecosystem</span>
+                </div>
+                <p class="description"><strong>Industry-leading open catalog and governance solution for interoperable, multi-engine data access.</strong></p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <div class="subsection-title">Polaris Catalog (Open Source)</div>
+                        <ul class="feature-list">
+                            <li><strong>Open Apache Iceberg Catalog:</strong> Fully open-source REST catalog donated to Apache Foundation</li>
+                            <li><strong>Multi-Engine Support:</strong> Use with Spark, Flink, Trino, Presto, Dremio, and more</li>
+                            <li><strong>Vendor Neutral:</strong> No lock-in - works with any compute engine</li>
+                            <li><strong>ACID Transactions:</strong> Full transactional consistency across engines</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="subsection-title">Horizon - Enterprise Catalog</div>
+                        <ul class="feature-list">
+                            <li><strong>Universal Catalog:</strong> Manage all data assets across clouds and engines</li>
+                            <li><strong>Unified Governance:</strong> Single control plane for access, security, and compliance</li>
+                            <li><strong>Cross-Platform Discovery:</strong> Search and discover data across all platforms</li>
+                            <li><strong>Lineage Tracking:</strong> End-to-end data lineage across systems</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <div class="subsection-title">Apache Iceberg Tables & External Catalogs</div>
+                    <ul class="feature-list">
+                        <li><strong>Iceberg Tables in Snowflake:</strong> Native Iceberg support with full ACID, time travel, and schema evolution</li>
+                        <li><strong>External Catalog Integration:</strong> Connect to AWS Glue, Databricks Unity Catalog, and custom catalogs</li>
+                        <li><strong>Open Table Formats:</strong> Read and write Iceberg, Delta Lake (via Iceberg), and Hudi tables</li>
+                        <li><strong>Catalog Federation:</strong> Query across multiple catalogs seamlessly from Snowflake</li>
+                        <li><strong>Zero ETL:</strong> Access external Iceberg tables in S3, ADLS, and GCS without data movement</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Data Lake -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🗄️</span>
+                    <span>Data Lake & Lakehouses</span>
+                </div>
+                <p class="description">Build open data lakehouses with support for Apache Iceberg, Parquet, and other open formats.</p>
+                <ul class="feature-list">
+                    <li><strong>Apache Iceberg Tables:</strong> Full support for Iceberg with ACID transactions and time travel</li>
+                    <li><strong>Iceberg REST Catalog:</strong> Open catalog for multi-engine interoperability</li>
+                    <li><strong>External Tables:</strong> Query Parquet, JSON, Avro, ORC, and XML in cloud storage</li>
+                    <li><strong>Unstructured Data:</strong> Store and query PDFs, images, videos, and audio files</li>
+                    <li><strong>Data Lake Export:</strong> Unload Snowflake tables to open formats in cloud storage</li>
+                    <li><strong>Hybrid Tables:</strong> Row-based storage for operational workloads with OLTP performance</li>
+                </ul>
+            </div>
+            
+            <!-- Snowpark -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🐍</span>
+                    <span>Snowpark</span>
+                </div>
+                <p class="description">Developer framework for building data pipelines, ML models, and applications using Python, Java, and Scala.</p>
+                <ul class="feature-list">
+                    <li><strong>Snowpark Python:</strong> DataFrame API for Python with pandas-like syntax and lazy evaluation</li>
+                    <li><strong>Snowpark Java/Scala:</strong> Type-safe APIs for JVM-based data engineering</li>
+                    <li><strong>User-Defined Functions:</strong> Write custom functions in Python, Java, Scala, JavaScript, SQL</li>
+                    <li><strong>Stored Procedures:</strong> Execute complex business logic with full procedural capabilities</li>
+                    <li><strong>Third-Party Packages:</strong> Import and use popular libraries (pandas, numpy, scikit-learn, etc.)</li>
+                    <li><strong>Snowpark Container Services:</strong> Run containerized workloads and microservices on Snowflake infrastructure</li>
+                </ul>
+            </div>
+            
+            <!-- Cortex AI & ML -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🤖</span>
+                    <span>Cortex AI & Machine Learning</span>
+                </div>
+                <p class="description">Fully managed AI and ML capabilities with LLM functions, ML models, and vector search - no separate infrastructure needed.</p>
+                <ul class="feature-list">
+                    <li><strong>Cortex LLM Functions:</strong> Use Mistral, Llama, Gemma, Reka models via SQL for summarization, translation, sentiment</li>
+                    <li><strong>Cortex AI SQL:</strong> Natural language to SQL with conversation history and semantic understanding</li>
+                    <li><strong>Cortex Search:</strong> Hybrid search combining semantic vector search with keyword search</li>
+                    <li><strong>Cortex Analyst:</strong> Text-to-SQL agent with semantic layer understanding</li>
+                    <li><strong>Snowflake Intelligence:</strong> AI-powered insights and recommendations across your data</li>
+                    <li><strong>Snowflake ML:</strong> End-to-end ML with feature engineering and model management</li>
+                    <li><strong>Model Registry:</strong> Centralized repository for models from any framework</li>
+                    <li><strong>ML Functions:</strong> Forecasting, anomaly detection, classification via SQL</li>
+                </ul>
+            </div>
+            
+            <!-- Snowflake Intelligence & Extensions -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🧠</span>
+                    <span>Intelligence & Extensions</span>
+                </div>
+                <p class="description">AI-powered capabilities and extensibility through MCP and knowledge extensions.</p>
+                <ul class="feature-list">
+                    <li><strong>Snowflake Intelligence:</strong> AI agent that understands your data, suggests queries, and provides insights automatically</li>
+                    <li><strong>Knowledge Extensions:</strong> Connect external knowledge bases and APIs to enhance AI queries</li>
+                    <li><strong>Managed MCP Server:</strong> Model Context Protocol server for AI agents - secure, governed LLM access to your data</li>
+                    <li><strong>Semantic Understanding:</strong> AI learns your business terminology and metrics definitions</li>
+                    <li><strong>Query Suggestions:</strong> AI-powered query recommendations based on data patterns</li>
+                    <li><strong>Data Profiling:</strong> Automatic statistical analysis and data quality insights</li>
+                </ul>
+            </div>
+            
+            <!-- Data Sharing & Marketplace -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🔄</span>
+                    <span>Data Sharing & Marketplace</span>
+                </div>
+                <p class="description">Securely share live data and access thousands of third-party datasets without ETL or data movement.</p>
+                <ul class="feature-list">
+                    <li><strong>Secure Data Sharing:</strong> Share live data instantly without copying - consumers see real-time updates</li>
+                    <li><strong>Data Marketplace:</strong> Access 2000+ free and paid datasets from providers worldwide</li>
+                    <li><strong>Data Exchange:</strong> Private data exchanges for controlled sharing within your ecosystem</li>
+                    <li><strong>Listings:</strong> Publish data products, apps, and AI/ML models to consumers</li>
+                    <li><strong>Cross-Cloud Sharing:</strong> Share data across AWS, Azure, and Google Cloud regions</li>
+                    <li><strong>Reader Accounts:</strong> Share with non-Snowflake customers without them needing an account</li>
+                </ul>
+            </div>
+            
+            <!-- Streamlit & Applications -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📊</span>
+                    <span>Streamlit & Applications</span>
+                </div>
+                <p class="description">Build and deploy data applications, dashboards, and AI apps directly in Snowflake with Python.</p>
+                <ul class="feature-list">
+                    <li><strong>Streamlit in Snowflake:</strong> Native Python framework for building interactive data apps</li>
+                    <li><strong>No DevOps Required:</strong> Deploy apps directly in Snowflake with built-in security and governance</li>
+                    <li><strong>Native Apps Framework:</strong> Build and monetize data applications on Snowflake</li>
+                    <li><strong>Snowflake Notebooks:</strong> Collaborative notebooks with Python, SQL, and visualizations</li>
+                    <li><strong>Custom Dashboards:</strong> Build role-based dashboards with real-time data</li>
+                    <li><strong>App Marketplace:</strong> Discover and install pre-built applications from partners</li>
+                </ul>
+            </div>
+            
+            <!-- Governance & Security -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🔒</span>
+                    <span>Governance & Security</span>
+                </div>
+                <p class="description">Enterprise-grade security, privacy, and compliance built into every layer of the platform.</p>
+                <ul class="feature-list">
+                    <li><strong>Role-Based Access Control:</strong> Fine-grained access control with hierarchical roles</li>
+                    <li><strong>Data Masking:</strong> Dynamic and static masking policies for PII and sensitive data</li>
+                    <li><strong>Row Access Policies:</strong> Row-level security based on user context</li>
+                    <li><strong>Tag-Based Policies:</strong> Apply governance policies using object tags</li>
+                    <li><strong>Data Classification:</strong> Automatic identification and tagging of sensitive data</li>
+                    <li><strong>Compliance:</strong> SOC 2 Type II, PCI-DSS, HIPAA, HITRUST, ISO 27001, FedRAMP</li>
+                    <li><strong>Encryption:</strong> End-to-end encryption with automatic key management</li>
+                </ul>
+            </div>
+            
+            <!-- Observability & Monitoring -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📈</span>
+                    <span>Monitoring & Observability</span>
+                </div>
+                <p class="description">Comprehensive monitoring, cost management, and optimization tools built into the platform.</p>
+                <ul class="feature-list">
+                    <li><strong>Account Usage Views:</strong> Detailed usage metrics for queries, storage, compute, and data transfer</li>
+                    <li><strong>Query Profile:</strong> Visual execution plans and performance insights for every query</li>
+                    <li><strong>Resource Monitors:</strong> Set credit quotas and alerts to control costs</li>
+                    <li><strong>Query History:</strong> Complete audit trail with 365-day retention</li>
+                    <li><strong>Performance Monitoring:</strong> Real-time dashboards for warehouse utilization and query performance</li>
+                    <li><strong>Cost Management:</strong> Granular cost attribution by warehouse, user, and query</li>
+                </ul>
+            </div>
+            
+            <!-- Collaboration & Development -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">👥</span>
+                    <span>Collaboration & Development</span>
+                </div>
+                <p class="description">Modern development tools and collaboration features for data teams.</p>
+                <ul class="feature-list">
+                    <li><strong>Snowsight:</strong> Modern web UI with collaborative worksheets and dashboards</li>
+                    <li><strong>Git Integration:</strong> Native Git integration for version control of SQL and Python code</li>
+                    <li><strong>Snowflake CLI:</strong> Command-line tool for managing Snowflake resources</li>
+                    <li><strong>VS Code Extension:</strong> Develop and debug Snowflake code in Visual Studio Code</li>
+                    <li><strong>Database Replication:</strong> Replicate databases across regions and clouds for DR and performance</li>
+                    <li><strong>Fail-safe:</strong> 7-day disaster recovery for deleted or corrupted data</li>
+                </ul>
+            </div>
+            
+            <!-- Business Intelligence -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">📉</span>
+                    <span>Business Intelligence & Viz</span>
+                </div>
+                <p class="description">Native and partner BI tools for analytics, reporting, and data visualization.</p>
+                <ul class="feature-list">
+                    <li><strong>Snowsight Dashboards:</strong> Built-in dashboards with SQL-based visualizations</li>
+                    <li><strong>Partner Connect:</strong> One-click integration with Tableau, Power BI, Looker, ThoughtSpot</li>
+                    <li><strong>JDBC/ODBC Drivers:</strong> Native connectors for all major BI and ETL tools</li>
+                    <li><strong>Materialized Views:</strong> Precomputed query results for fast dashboard performance</li>
+                    <li><strong>Snowflake Connector:</strong> Optimized connectors for Spark, Kafka, Python, Node.js</li>
+                    <li><strong>REST API:</strong> Comprehensive REST API for custom integrations</li>
+                </ul>
+            </div>
+            
+            <!-- Multi-Cloud Architecture -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">☁️</span>
+                    <span>Multi-Cloud & Global</span>
+                </div>
+                <p class="description">Run Snowflake on any cloud, in any region, with seamless data sharing across clouds.</p>
+                <div class="cloud-providers">
+                    <div class="cloud-badge">☁️ AWS</div>
+                    <div class="cloud-badge">☁️ Azure</div>
+                    <div class="cloud-badge">☁️ Google Cloud</div>
+                </div>
+                <ul class="feature-list">
+                    <li><strong>35+ Cloud Regions:</strong> Available in major regions worldwide</li>
+                    <li><strong>Cross-Cloud Sharing:</strong> Share data between AWS, Azure, and GCP</li>
+                    <li><strong>Cross-Region Replication:</strong> Automatic replication for DR and data locality</li>
+                    <li><strong>Private Connectivity:</strong> AWS PrivateLink, Azure Private Link, GCP Private Service Connect</li>
+                    <li><strong>Tri-Secret Secure:</strong> Customer-managed encryption keys with your KMS</li>
+                    <li><strong>Business Critical Edition:</strong> Enhanced security with dedicated metadata store</li>
+                </ul>
+            </div>
+            
+            <!-- Data Integration -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">🔌</span>
+                    <span>Data Integration & Connectors</span>
+                </div>
+                <p class="description">Extensive ecosystem of connectors and integrations for seamless data movement.</p>
+                <ul class="feature-list">
+                    <li><strong>Partner Connect:</strong> 200+ pre-built integrations with data tools and platforms</li>
+                    <li><strong>Snowflake Connector:</strong> Native connectors for Spark, Kafka, Python, .NET, Node.js, Go</li>
+                    <li><strong>Change Data Capture:</strong> Native CDC with Streams for real-time data pipelines</li>
+                    <li><strong>Data Lake Integration:</strong> Direct access to data in S3, Azure Blob, GCS</li>
+                    <li><strong>Database Replication:</strong> Continuous replication from operational databases</li>
+                    <li><strong>API Integration:</strong> REST and SQL APIs for custom integrations</li>
+                </ul>
+            </div>
+            
+            <!-- Developer Experience -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">💻</span>
+                    <span>Developer Experience</span>
+                </div>
+                <p class="description">Modern developer tools and SDKs for building on Snowflake with your preferred languages.</p>
+                <ul class="feature-list">
+                    <li><strong>Snowflake Python API:</strong> Pythonic API for managing Snowflake resources programmatically</li>
+                    <li><strong>Snowflake CLI:</strong> Command-line interface for CI/CD and automation</li>
+                    <li><strong>Terraform Provider:</strong> Infrastructure-as-code with HashiCorp Terraform</li>
+                    <li><strong>dbt Support:</strong> Native support for dbt with optimized performance</li>
+                    <li><strong>OpenAPI Spec:</strong> REST API with OpenAPI 3.0 specification</li>
+                    <li><strong>Developer Docs:</strong> Comprehensive documentation, tutorials, and quickstarts</li>
+                </ul>
+            </div>
+            
+            <!-- Performance & Scale -->
+            <div class="section">
+                <div class="section-title">
+                    <span class="icon">⚡</span>
+                    <span>Performance & Scale</span>
+                </div>
+                <p class="description">Industry-leading performance with automatic optimization and unlimited scale.</p>
+                <ul class="feature-list">
+                    <li><strong>Automatic Clustering:</strong> Automatic micro-partition clustering for optimal performance</li>
+                    <li><strong>Query Acceleration:</strong> Offload portions of queries to serverless compute for faster results</li>
+                    <li><strong>Materialized Views:</strong> Automatically maintained views for sub-second query performance</li>
+                    <li><strong>Columnar Storage:</strong> Optimized columnar format with automatic compression</li>
+                    <li><strong>Pruning:</strong> Automatic partition pruning eliminates scanning unnecessary data</li>
+                    <li><strong>Unlimited Concurrency:</strong> Multi-cluster warehouses scale to support unlimited users</li>
+                    <li><strong>Directed Joins:</strong> Enforced join order for query optimization (Oct 2025)</li>
+                </ul>
+            </div>
+            
+            <!-- What's New in 2025 -->
+            <div class="section" style="grid-column: span 2; background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%); border: 2px solid #ff9933;">
+                <div class="section-title" style="border-bottom: 2px solid #ff9933;">
+                    <span class="icon">🚀</span>
+                    <span style="color: #ff6600;">What's New in 2025</span>
+                </div>
+                <p class="description"><strong>Latest innovations and features released in 2025 - cutting-edge capabilities at the forefront of data cloud technology.</strong></p>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <div class="subsection-title" style="color: #ff6600;">AI & ML Innovations (Oct 2025)</div>
+                        <ul class="feature-list">
+                            <li><strong>AI_EXTRACT AISQL Function:</strong> Extract structured data from unstructured sources using AI (GA)</li>
+                            <li><strong>Cortex Search Component Scores:</strong> Detailed scoring for hybrid search results (Preview)</li>
+                            <li><strong>CORTEX_EMBED_USER Role:</strong> Fine-grained access control for embeddings (Oct 13)</li>
+                            <li><strong>Named Scoring Profiles:</strong> Customizable search relevance for Cortex Search (GA Oct 3)</li>
+                            <li><strong>Cortex Agents for Teams:</strong> Microsoft Teams & Copilot integration (Preview Sep 30)</li>
+                        </ul>
+                        <div class="subsection-title" style="color: #ff6600; margin-top: 15px;">Developer Experience (2025)</div>
+                        <ul class="feature-list">
+                            <li><strong>dbt Projects on Snowflake:</strong> Native dbt integration with improved debugging (Preview)</li>
+                            <li><strong>Snowflake Scripting UDFs:</strong> User-defined functions in Snowflake Scripting (GA)</li>
+                            <li><strong>CONTINUE Handlers:</strong> Advanced error handling in Snowflake Scripting</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <div class="subsection-title" style="color: #ff6600;">Data & Analytics (Oct 2025)</div>
+                        <ul class="feature-list">
+                            <li><strong>Verified Query Suggestions:</strong> AI-powered query recommendations with validation (Preview Oct 9)</li>
+                            <li><strong>Query Insights in Snowsight:</strong> Advanced query performance analysis (GA Oct 7)</li>
+                            <li><strong>Semantic Views:</strong> Business-friendly data views in Snowsight (GA Oct 2)</li>
+                            <li><strong>SQL Object Descriptions:</strong> Cortex-powered automatic documentation (GA Sep 29)</li>
+                            <li><strong>Lineage for Tasks & Procedures:</strong> Track data flow dependencies (GA Oct 3)</li>
+                            <li><strong>MERGE ALL BY NAME:</strong> Simplified merge operations with column name matching</li>
+                        </ul>
+                        <div class="subsection-title" style="color: #ff6600; margin-top: 15px;">Open Catalog & Iceberg (2025)</div>
+                        <ul class="feature-list">
+                            <li><strong>External OAuth for Open Catalog:</strong> Enhanced security for catalog integrations (GA Sep 29)</li>
+                            <li><strong>Iceberg Table Optimization:</strong> Automatic compaction & optimization (GA)</li>
+                            <li><strong>Auto-Refresh Catalog Links:</strong> Automatic sync for Iceberg table creation</li>
+                        </ul>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <div class="subsection-title" style="color: #ff6600;">Security & Governance (2025)</div>
+                    <ul class="feature-list">
+                        <li><strong>Tri-Secret Secure w/ Private Connectivity:</strong> Customer-managed keys with PrivateLink (Oct 6)</li>
+                        <li><strong>Hybrid Tables on Azure:</strong> OLTP performance now available on Microsoft Azure (GA Oct 6)</li>
+                        <li><strong>Hybrid Table Tri-Secret Support:</strong> Enhanced encryption for operational data (Sep 29)</li>
+                        <li><strong>Organization User Groups:</strong> Cross-account user management with organizational listings (Preview Oct 9)</li>
+                        <li><strong>OBJECT_VISIBILITY Property:</strong> Control object visibility across accounts (Preview Oct 1)</li>
+                        <li><strong>Declarative Sharing:</strong> Infrastructure-as-code for data sharing (Preview Sep 30)</li>
+                        <li><strong>Data Clean Rooms Updates:</strong> Enhanced privacy-preserving data collaboration (Oct 2025)</li>
+                    </ul>
+                </div>
+                <div style="background: #ff6600; color: white; padding: 12px; border-radius: 5px; margin-top: 15px; font-weight: 600; text-align: center;">
+                    Source: <a href="https://docs.snowflake.com/en/release-notes/new-features" style="color: white; text-decoration: underline;">Snowflake Release Notes 2025</a> - Updated October 2025
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <strong>Snowflake Data Cloud</strong> | Mobilizing the world's data | Learn more at snowflake.com
+        </div>
+    </div>
+</body>
+</html>

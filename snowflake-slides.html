@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snowflake Data Cloud - Presentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #1a1a1a;
+            overflow: hidden;
+        }
+        
+        .slides-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            padding: 60px 80px;
+        }
+        
+        .slide.active {
+            opacity: 1;
+            z-index: 10;
+        }
+        
+        .slide-title {
+            background: linear-gradient(135deg, #29B5E8 0%, #1E88C7 100%);
+            color: white;
+        }
+        
+        .slide-content {
+            background: white;
+        }
+        
+        .slide-dark {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+        }
+        
+        h1 {
+            font-size: 3.5em;
+            margin-bottom: 30px;
+            color: white;
+        }
+        
+        .slide-content h1 {
+            color: #1E88C7;
+            font-size: 3em;
+        }
+        
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #29B5E8;
+        }
+        
+        .slide-content h2 {
+            color: #1E88C7;
+        }
+        
+        .subtitle {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+        
+        .description {
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: #555;
+        }
+        
+        .slide-dark .description {
+            color: rgba(255,255,255,0.9);
+        }
+        
+        ul {
+            list-style: none;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+        
+        ul li {
+            padding: 10px 0;
+            padding-left: 30px;
+            position: relative;
+        }
+        
+        ul li:before {
+            content: "▸";
+            position: absolute;
+            left: 0;
+            color: #29B5E8;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+        
+        .slide-dark ul li:before {
+            color: #29B5E8;
+        }
+        
+        strong {
+            color: #1E88C7;
+        }
+        
+        .slide-dark strong {
+            color: #29B5E8;
+        }
+        
+        .highlight-box {
+            background: #29B5E8;
+            color: white;
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 40px;
+            font-size: 1.3em;
+            font-weight: 500;
+            box-shadow: 0 5px 20px rgba(41, 181, 232, 0.3);
+        }
+        
+        .cloud-badges {
+            display: flex;
+            gap: 20px;
+            margin-top: 30px;
+        }
+        
+        .cloud-badge {
+            background: linear-gradient(135deg, #29B5E8 0%, #1E88C7 100%);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.2em;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 30px;
+        }
+        
+        .column ul {
+            font-size: 1em;
+        }
+        
+        .navigation {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+        
+        .nav-button {
+            background: linear-gradient(135deg, #29B5E8 0%, #1E88C7 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.2s;
+        }
+        
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+        }
+        
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .slide-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            color: white;
+            font-size: 1.2em;
+            z-index: 1000;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+        
+        .logo {
+            position: absolute;
+            top: 30px;
+            right: 80px;
+            font-size: 2em;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .slide-content .logo {
+            color: #1E88C7;
+        }
+        
+        @media print {
+            .navigation, .slide-counter {
+                display: none;
+            }
+            .slide {
+                position: relative;
+                opacity: 1 !important;
+                page-break-after: always;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="slides-container">
+        <!-- Slide 1: Title -->
+        <div class="slide slide-title active">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h1>Snowflake Data Cloud Platform</h1>
+                <p class="subtitle">The AI Data Cloud</p>
+                <p class="subtitle" style="font-size: 1.2em;">Mobilizing the world's data with a single, integrated platform</p>
+            </div>
+        </div>
+        
+        <!-- Slide 2: Overview -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h1>The Snowflake Data Cloud</h1>
+            <p class="description">A single, integrated platform that enables every organization to mobilize their data with near-unlimited scale, concurrency, and performance.</p>
+            <ul>
+                <li><strong>Single Platform:</strong> Unified data warehousing, data lakes, data engineering, data science, and data applications</li>
+                <li><strong>Multi-Cloud:</strong> Run anywhere - AWS, Azure, Google Cloud</li>
+                <li><strong>Near-Zero Maintenance:</strong> No infrastructure to manage, automatic scaling, and optimization</li>
+                <li><strong>Instant Elasticity:</strong> Scale compute and storage independently in seconds</li>
+                <li><strong>Secure Data Sharing:</strong> Share live data instantly without copying or moving</li>
+            </ul>
+            <div class="highlight-box">
+                Snowflake separates compute from storage, enabling unlimited concurrency and linear scalability at any scale.
+            </div>
+        </div>
+        
+        <!-- Slide 3: Data Warehousing -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🏢 Data Warehousing</h2>
+            <p class="description">Industry-leading cloud data warehouse with unlimited scale, performance, and concurrency.</p>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li><strong>Virtual Warehouses:</strong> Independent compute clusters with auto-scaling</li>
+                        <li><strong>Multi-Cluster Warehouses:</strong> Handle unlimited concurrent users</li>
+                        <li><strong>Zero-Copy Cloning:</strong> Instant cloning without duplicating storage</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><strong>Time Travel:</strong> Query data from the past 90 days</li>
+                        <li><strong>Result Caching:</strong> Instant query response times</li>
+                        <li><strong>Search Optimization:</strong> Up to 100x faster queries</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 4: Data Engineering -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>⚙️ Data Engineering</h2>
+            <p class="description">Complete data pipeline platform for ingestion, transformation, and orchestration.</p>
+            <ul>
+                <li><strong>Snowpipe:</strong> Continuous, automated data ingestion as files arrive</li>
+                <li><strong>Snowpipe Streaming:</strong> Sub-second latency for real-time data</li>
+                <li><strong>Tasks & Streams:</strong> Native CDC and workflow orchestration</li>
+                <li><strong>Dynamic Tables:</strong> Declarative pipelines with automatic refresh</li>
+                <li><strong>External Tables:</strong> Query external storage without loading</li>
+                <li><strong>Data Loading:</strong> From cloud, on-premises, and third-party sources</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 5: OpenFlow & PostgreSQL -->
+        <div class="slide slide-dark">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🔀 OpenFlow & PostgreSQL</h2>
+            <p class="description">Visual data pipeline builder and PostgreSQL compatibility for seamless migrations.</p>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li><strong>OpenFlow:</strong> Low-code/no-code visual pipeline builder</li>
+                        <li><strong>Pipeline Orchestration:</strong> Visual DAG builder for workflows</li>
+                        <li><strong>Drag-and-Drop:</strong> Build complex pipelines without code</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><strong>Snowflake PostgreSQL:</strong> PostgreSQL-compatible interface</li>
+                        <li><strong>Wire Protocol Support:</strong> Connect PostgreSQL tools directly</li>
+                        <li><strong>Migration Tools:</strong> Automated migration from PostgreSQL</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 6: Polaris Catalog & Horizon -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🌐 Polaris Catalog & Horizon</h2>
+            <p class="description" style="font-size: 1.1em;"><strong>Industry-leading open catalog and governance for multi-engine data access.</strong></p>
+            <div class="two-column">
+                <div>
+                    <h3 style="color: #1E88C7; font-size: 1.2em; margin-bottom: 15px;">Polaris Catalog (Open Source)</h3>
+                    <ul style="font-size: 0.95em;">
+                        <li><strong>Open Apache Iceberg Catalog:</strong> Fully open-source REST catalog</li>
+                        <li><strong>Multi-Engine Support:</strong> Spark, Flink, Trino, Presto, Dremio</li>
+                        <li><strong>Vendor Neutral:</strong> No lock-in</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #1E88C7; font-size: 1.2em; margin-bottom: 15px;">Horizon - Enterprise Catalog</h3>
+                    <ul style="font-size: 0.95em;">
+                        <li><strong>Universal Catalog:</strong> All data assets across clouds</li>
+                        <li><strong>Unified Governance:</strong> Single control plane</li>
+                        <li><strong>Cross-Platform Discovery:</strong> Search everywhere</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 7: Iceberg & External Catalogs -->
+        <div class="slide slide-dark">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>📁 Iceberg Tables & External Catalogs</h2>
+            <p class="description">Native Apache Iceberg support with external catalog integration.</p>
+            <ul>
+                <li><strong>Iceberg Tables in Snowflake:</strong> Full ACID, time travel, and schema evolution</li>
+                <li><strong>External Catalog Integration:</strong> Connect to AWS Glue, Databricks Unity Catalog</li>
+                <li><strong>Open Table Formats:</strong> Read and write Iceberg, Delta Lake (via Iceberg), Hudi</li>
+                <li><strong>Catalog Federation:</strong> Query across multiple catalogs seamlessly</li>
+                <li><strong>Zero ETL:</strong> Access external Iceberg tables in S3, ADLS, GCS without data movement</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 8: Data Lake & Lakehouses -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🗄️ Data Lake & Lakehouses</h2>
+            <p class="description">Build open data lakehouses with Apache Iceberg, Parquet, and other open formats.</p>
+            <ul>
+                <li><strong>Apache Iceberg Tables:</strong> Full ACID transactions and time travel</li>
+                <li><strong>Iceberg REST Catalog:</strong> Multi-engine interoperability</li>
+                <li><strong>External Tables:</strong> Query Parquet, JSON, Avro, ORC, XML</li>
+                <li><strong>Unstructured Data:</strong> PDFs, images, videos, and audio files</li>
+                <li><strong>Data Lake Export:</strong> Unload to open formats in cloud storage</li>
+                <li><strong>Hybrid Tables:</strong> OLTP performance for operational workloads</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 9: Snowpark -->
+        <div class="slide slide-dark">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🐍 Snowpark</h2>
+            <p class="description">Developer framework for building pipelines, ML models, and apps in Python, Java, and Scala.</p>
+            <ul>
+                <li><strong>Snowpark Python:</strong> DataFrame API with pandas-like syntax</li>
+                <li><strong>Snowpark Java/Scala:</strong> Type-safe APIs for JVM development</li>
+                <li><strong>User-Defined Functions:</strong> Python, Java, Scala, JavaScript, SQL</li>
+                <li><strong>Stored Procedures:</strong> Complex business logic with procedural capabilities</li>
+                <li><strong>Third-Party Packages:</strong> pandas, numpy, scikit-learn, and more</li>
+                <li><strong>Container Services:</strong> Run containerized workloads on Snowflake</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 10: Cortex AI & ML -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🤖 Cortex AI & Machine Learning</h2>
+            <p class="description">Fully managed AI and ML with LLM functions, ML models, and vector search.</p>
+            <ul>
+                <li><strong>Cortex LLM Functions:</strong> Mistral, Llama, Gemma, Reka via SQL</li>
+                <li><strong>Cortex AI SQL:</strong> Natural language to SQL with conversation history</li>
+                <li><strong>Cortex Search:</strong> Hybrid semantic + keyword search</li>
+                <li><strong>Cortex Analyst:</strong> Text-to-SQL agent with semantic layer</li>
+                <li><strong>Snowflake ML:</strong> End-to-end ML development</li>
+                <li><strong>Model Registry:</strong> Centralized model management</li>
+                <li><strong>ML Functions:</strong> Forecasting, anomaly detection via SQL</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 11: Intelligence & Extensions -->
+        <div class="slide slide-dark">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🧠 Intelligence & Extensions</h2>
+            <p class="description">AI-powered capabilities and extensibility through MCP and knowledge extensions.</p>
+            <ul>
+                <li><strong>Snowflake Intelligence:</strong> AI agent that understands your data and suggests queries</li>
+                <li><strong>Knowledge Extensions:</strong> Connect external knowledge bases and APIs</li>
+                <li><strong>Managed MCP Server:</strong> Model Context Protocol for AI agents - secure LLM data access</li>
+                <li><strong>Semantic Understanding:</strong> AI learns your business terminology</li>
+                <li><strong>Query Suggestions:</strong> AI-powered query recommendations</li>
+                <li><strong>Data Profiling:</strong> Automatic statistical analysis and insights</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 12: Data Sharing -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🔄 Data Sharing & Marketplace</h2>
+            <p class="description">Share live data and access 2000+ datasets without ETL or data movement.</p>
+            <ul>
+                <li><strong>Secure Data Sharing:</strong> Share live data without copying - real-time updates</li>
+                <li><strong>Data Marketplace:</strong> 2000+ free and paid datasets worldwide</li>
+                <li><strong>Data Exchange:</strong> Private exchanges for controlled sharing</li>
+                <li><strong>Listings:</strong> Publish data products, apps, and AI/ML models</li>
+                <li><strong>Cross-Cloud Sharing:</strong> Share across AWS, Azure, and GCP</li>
+                <li><strong>Reader Accounts:</strong> Share with non-Snowflake customers</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 13: Streamlit & Apps -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>📊 Streamlit & Applications</h2>
+            <p class="description">Build and deploy data applications and dashboards directly in Snowflake with Python.</p>
+            <ul>
+                <li><strong>Streamlit in Snowflake:</strong> Native Python framework for interactive apps</li>
+                <li><strong>No DevOps Required:</strong> Deploy with built-in security and governance</li>
+                <li><strong>Native Apps Framework:</strong> Build and monetize data applications</li>
+                <li><strong>Snowflake Notebooks:</strong> Collaborative Python, SQL, and visualizations</li>
+                <li><strong>Custom Dashboards:</strong> Role-based dashboards with real-time data</li>
+                <li><strong>App Marketplace:</strong> Pre-built applications from partners</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 14: Governance & Security -->
+        <div class="slide slide-dark">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🔒 Governance & Security</h2>
+            <p class="description">Enterprise-grade security, privacy, and compliance built into every layer.</p>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li><strong>RBAC:</strong> Fine-grained access control</li>
+                        <li><strong>Data Masking:</strong> Dynamic and static PII masking</li>
+                        <li><strong>Row Access Policies:</strong> Row-level security</li>
+                        <li><strong>Tag-Based Policies:</strong> Governance using tags</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><strong>Data Classification:</strong> Automatic sensitive data tagging</li>
+                        <li><strong>Compliance:</strong> SOC 2, PCI-DSS, HIPAA, ISO 27001, FedRAMP</li>
+                        <li><strong>Encryption:</strong> End-to-end with automatic key management</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 15: Multi-Cloud -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>☁️ Multi-Cloud & Global</h2>
+            <p class="description">Run on any cloud, in any region, with seamless cross-cloud data sharing.</p>
+            <div class="cloud-badges">
+                <div class="cloud-badge">☁️ AWS</div>
+                <div class="cloud-badge">☁️ Azure</div>
+                <div class="cloud-badge">☁️ Google Cloud</div>
+            </div>
+            <ul style="margin-top: 40px;">
+                <li><strong>35+ Cloud Regions:</strong> Available in major regions worldwide</li>
+                <li><strong>Cross-Cloud Sharing:</strong> Share data between AWS, Azure, and GCP</li>
+                <li><strong>Cross-Region Replication:</strong> Automatic replication for DR</li>
+                <li><strong>Private Connectivity:</strong> PrivateLink across all clouds</li>
+                <li><strong>Tri-Secret Secure:</strong> Customer-managed encryption keys</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 16: Performance -->
+        <div class="slide slide-dark">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>⚡ Performance & Scale</h2>
+            <p class="description">Industry-leading performance with automatic optimization and unlimited scale.</p>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li><strong>Automatic Clustering:</strong> Optimal performance without tuning</li>
+                        <li><strong>Query Acceleration:</strong> Serverless compute for faster results</li>
+                        <li><strong>Materialized Views:</strong> Sub-second query performance</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><strong>Columnar Storage:</strong> Optimized with auto-compression</li>
+                        <li><strong>Partition Pruning:</strong> Eliminate unnecessary data scanning</li>
+                        <li><strong>Unlimited Concurrency:</strong> Multi-cluster auto-scaling</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 17: Developer Experience -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>💻 Developer Experience</h2>
+            <p class="description">Modern tools and SDKs for building on Snowflake with your preferred languages.</p>
+            <div class="two-column">
+                <div>
+                    <ul>
+                        <li><strong>Snowflake Python API:</strong> Pythonic resource management</li>
+                        <li><strong>Snowflake CLI:</strong> CI/CD and automation</li>
+                        <li><strong>Terraform Provider:</strong> Infrastructure-as-code</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul>
+                        <li><strong>dbt Support:</strong> Optimized dbt integration</li>
+                        <li><strong>OpenAPI Spec:</strong> REST API with OpenAPI 3.0</li>
+                        <li><strong>VS Code Extension:</strong> Develop and debug in VS Code</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 18: Integration -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🔌 Integration & Connectivity</h2>
+            <p class="description">Extensive ecosystem with 200+ connectors and integrations.</p>
+            <ul>
+                <li><strong>Partner Connect:</strong> 200+ pre-built integrations with data tools</li>
+                <li><strong>Native Connectors:</strong> Spark, Kafka, Python, .NET, Node.js, Go</li>
+                <li><strong>Change Data Capture:</strong> Native CDC with Streams</li>
+                <li><strong>Data Lake Integration:</strong> Direct access to S3, Azure Blob, GCS</li>
+                <li><strong>BI Tools:</strong> Tableau, Power BI, Looker, ThoughtSpot</li>
+                <li><strong>API Integration:</strong> REST and SQL APIs</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 19: 2025 AI & ML Innovations -->
+        <div class="slide slide-content" style="background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2 style="color: #ff6600;">🚀 What's New in 2025: AI & ML</h2>
+            <p class="description" style="color: #333;"><strong>Latest AI innovations released in October 2025</strong></p>
+            <div class="two-column">
+                <div>
+                    <ul style="font-size: 1em;">
+                        <li><strong>AI_EXTRACT Function:</strong> Extract structured data from unstructured sources (GA Oct 16)</li>
+                        <li><strong>Cortex Search Scoring:</strong> Component scores for hybrid search (Preview Oct 10)</li>
+                        <li><strong>CORTEX_EMBED_USER Role:</strong> Fine-grained embedding access control (Oct 13)</li>
+                    </ul>
+                </div>
+                <div>
+                    <ul style="font-size: 1em;">
+                        <li><strong>Named Scoring Profiles:</strong> Custom search relevance (GA Oct 3)</li>
+                        <li><strong>Cortex Agents for Teams:</strong> Microsoft Teams integration (Preview Sep 30)</li>
+                        <li><strong>Verified Query Suggestions:</strong> AI-powered query help (Preview Oct 9)</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="margin-top: 20px; padding: 15px; background: #ff6600; color: white; border-radius: 5px; text-align: center; font-weight: 600;">
+                Source: <a href="https://docs.snowflake.com/en/release-notes/new-features" style="color: white; text-decoration: underline;">Snowflake Release Notes Oct 2025</a>
+            </div>
+        </div>
+        
+        <!-- Slide 20: 2025 Data & Analytics -->
+        <div class="slide slide-dark">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2>🚀 What's New in 2025: Data & Analytics</h2>
+            <p class="description">Enhanced analytics and developer productivity features</p>
+            <ul>
+                <li><strong>Query Insights in Snowsight:</strong> Advanced performance analysis (GA Oct 7)</li>
+                <li><strong>Semantic Views:</strong> Business-friendly data views in Snowsight (GA Oct 2)</li>
+                <li><strong>SQL Object Descriptions:</strong> Cortex-powered auto-documentation (GA Sep 29)</li>
+                <li><strong>Lineage for Tasks & Procedures:</strong> Complete data flow tracking (GA Oct 3)</li>
+                <li><strong>MERGE ALL BY NAME:</strong> Simplified merge with column matching</li>
+                <li><strong>dbt Projects on Snowflake:</strong> Native dbt with debugging (Preview Oct 9)</li>
+            </ul>
+        </div>
+        
+        <!-- Slide 21: 2025 Open Catalog & Security -->
+        <div class="slide slide-content">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <h2 style="color: #ff6600;">🚀 2025: Open Catalog & Security</h2>
+            <div class="two-column">
+                <div>
+                    <h3 style="color: #1E88C7; font-size: 1.2em; margin-bottom: 15px;">Open Catalog (2025)</h3>
+                    <ul style="font-size: 0.95em;">
+                        <li><strong>External OAuth:</strong> Enhanced catalog security (GA Sep 29)</li>
+                        <li><strong>Iceberg Optimization:</strong> Auto-compaction (GA)</li>
+                        <li><strong>Auto-Refresh Catalog:</strong> Automatic Iceberg sync</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3 style="color: #1E88C7; font-size: 1.2em; margin-bottom: 15px;">Security & Governance</h3>
+                    <ul style="font-size: 0.95em;">
+                        <li><strong>Tri-Secret + PrivateLink:</strong> Keys with private connectivity (Oct 6)</li>
+                        <li><strong>Hybrid Tables on Azure:</strong> OLTP on Azure (GA Oct 6)</li>
+                        <li><strong>Organization User Groups:</strong> Cross-account mgmt (Preview Oct 9)</li>
+                        <li><strong>Declarative Sharing:</strong> IaC for data sharing (Preview Sep 30)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slide 22: Summary -->
+        <div class="slide slide-title">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center;">
+                <h1>Why Snowflake?</h1>
+                <ul style="font-size: 1.3em; line-height: 2;">
+                    <li><strong>Single Platform:</strong> Data warehouse, lake, engineering, ML, and apps</li>
+                    <li><strong>True Multi-Cloud:</strong> AWS, Azure, GCP with cross-cloud sharing</li>
+                    <li><strong>Open Ecosystem:</strong> Polaris Catalog, Iceberg, external catalogs</li>
+                    <li><strong>Near-Zero Maintenance:</strong> Fully managed with automatic optimization</li>
+                    <li><strong>Built-in AI:</strong> Cortex AI SQL, Intelligence, LLMs, ML models</li>
+                    <li><strong>Continuous Innovation:</strong> 20+ major features in Q4 2025 alone</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Slide 23: Thank You -->
+        <div class="slide slide-title">
+            <div class="logo">❄️ SNOWFLAKE</div>
+            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+                <h1 style="font-size: 4em; margin-bottom: 40px;">Thank You</h1>
+                <p class="subtitle" style="font-size: 1.5em;">Mobilizing the world's data</p>
+                <p class="subtitle" style="font-size: 1.3em; margin-top: 20px;">Learn more at <strong>snowflake.com</strong></p>
+                <p class="subtitle" style="font-size: 1em; margin-top: 30px; opacity: 0.8;">Latest features from October 2025</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="slide-counter">
+        <span id="current-slide">1</span> / <span id="total-slides">23</span>
+    </div>
+    
+    <div class="navigation">
+        <button class="nav-button" id="prev-btn" onclick="previousSlide()">← Previous</button>
+        <button class="nav-button" id="next-btn" onclick="nextSlide()">Next →</button>
+    </div>
+    
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        document.getElementById('total-slides').textContent = totalSlides;
+        
+        function showSlide(n) {
+            slides[currentSlide].classList.remove('active');
+            currentSlide = (n + totalSlides) % totalSlides;
+            slides[currentSlide].classList.add('active');
+            
+            document.getElementById('current-slide').textContent = currentSlide + 1;
+            
+            document.getElementById('prev-btn').disabled = currentSlide === 0;
+            document.getElementById('next-btn').disabled = currentSlide === totalSlides - 1;
+        }
+        
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                showSlide(currentSlide + 1);
+            }
+        }
+        
+        function previousSlide() {
+            if (currentSlide > 0) {
+                showSlide(currentSlide - 1);
+            }
+        }
+        
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                previousSlide();
+            }
+        });
+        
+        // Initialize
+        showSlide(0);
+    </script>
+</body>
+</html>
